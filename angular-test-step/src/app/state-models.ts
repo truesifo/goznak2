@@ -11,8 +11,7 @@ export interface LoginInfo {
 export class Login {
     static readonly type = '[Auth] Login';
 
-    constructor(public payload: LoginInfo) {
-    }
+    constructor(public payload: LoginInfo) {}
 }
 
 export class Logout {
