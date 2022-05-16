@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { AuthStateModel, Login, LoginInfo } from '../state-models';
+import { LoginInfo } from '../state-models';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +24,7 @@ export class AuthenticationService {
         return this.authenticate(payload.username, payload.password);
     }
 
-    signout(): Observable<null> {
+    signOut(): Observable<null> {
         return of(null);
     }
 

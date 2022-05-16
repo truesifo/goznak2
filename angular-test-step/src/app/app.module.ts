@@ -12,6 +12,7 @@ import { NavBarComponent } from './components/static/nav-bar/nav-bar.component';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { AuthenticationService } from './services/authentication.service';
+import { AuthStatusState } from './components/login-ngxs/store/auth.state';
 
 @NgModule({
     declarations: [AppComponent, LoginNgxsComponent, IntroductionComponent, NavBarComponent],
@@ -22,12 +23,12 @@ import { AuthenticationService } from './services/authentication.service';
         NoopAnimationsModule,
         ReactiveFormsModule,
         FormsModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([AuthStatusState]),
         NgxsStoragePluginModule.forRoot({
             key: ['auth.username', 'auth.loggedIn'],
         }),
     ],
-    providers: [],
+    providers: [AuthenticationService],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

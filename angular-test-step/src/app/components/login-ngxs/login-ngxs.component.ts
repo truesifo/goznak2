@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { LoginInfo } from '../../state-models';
+import { Store } from '@ngxs/store';
+import { Login, Logout } from './store/auth.actions';
+import { AuthStatusState } from './store/auth.state';
 
 @Component({
     selector: 'app-login-ngxs',
@@ -13,24 +16,30 @@ export class LoginNgxsComponent implements OnInit {
     password: string;
     username$: Observable<string>;
     loggedIn$: Observable<boolean>;
+    error$: Observable<string>;
 
-    constructor(private _authService: AuthenticationService) {}
+    constructor(private _store: Store, private _authService: AuthenticationService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.initValues();
+    }
 
-    doLogin() {
-        // TODO login
-        // this._authService.signIn();
-        console.log('doLogin', this.username, this.password);
+    private initValues() {
+        this.loggedIn$ = this._store.select(AuthStatusState.getLoggedIn);
+        this.username$ = this._store.select(AuthStatusState.getUsername);
+        this.error$ = this._store.select(AuthStatusState.getError);
+    }
+
+    doLogin(): void {
         const sendBack: LoginInfo = {
             username: this.username,
             password: this.password,
         };
-        this._authService.signIn(sendBack);
+
+        this._store.dispatch(new Login(sendBack));
     }
 
     logout(): void {
-        // TODO logout
-        this._authService.signout();
+        this._store.dispatch(new Logout());
     }
 }
